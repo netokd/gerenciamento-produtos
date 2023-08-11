@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "TestProductDAO",
+            "request": "launch",
+            "mainClass": "com.gerenciamento.produtos.TestProductDAO",
+            "projectName": "gerenciamento-produtos"
+        },
+        {
+            "type": "java",
+            "name": "Start Tomcat",
+            "request": "launch",
+            "mainClass": "",
+            "args": "-Dcatalina.base=.\\server -Djava.util.logging.config.file=.\\conf\\logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager org.apache.catalina.startup.Bootstrap start",
+            "projectName": "gerenciamento-produtos"
+        }
+    ]
+  }
+  
