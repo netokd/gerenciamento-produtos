@@ -10,21 +10,25 @@ public class TestProductDAO {
         // 100.99, 10);
 
         // Buscar o produto pelo ID
-        long productIdToUpdate = 1; // id a ser localizado
-        Product productToUpdate = productDAO.findProductById(productIdToUpdate);
+        // long productIdToUpdate = 1; // id a ser localizado
+        long productIdToDelete = 2; // id a ser deletado
+        // Product productToUpdate = productDAO.findProductById(productIdToUpdate);
 
-        if (productToUpdate != null) {
-            productToUpdate.setName("Atualizado");
-            productToUpdate.setDescription("Descrição do Produto foi atualizad");
-            productToUpdate.setPrice(55.55);
-            productToUpdate.setQuantity(0);
+        productDAO.removeProduct(productIdToDelete);
 
-            productDAO.updateProduct(productToUpdate);
-        } else {
-            System.out.println("Produto não encontrado");
-        }
+        // if (productToUpdate != null) {
+        // productToUpdate.setName("Atualizado");
+        // productToUpdate.setDescription("Descrição do Produto foi atualizad");
+        // productToUpdate.setPrice(55.55);
+        // productToUpdate.setQuantity(0);
+
+        // productDAO.updateProduct(productToUpdate);
+        // } else {
+        // System.out.println("Produto não encontrado");
+        // }
 
         // Chama o método de inserção do ProductDAO
         // productDAO.insertProduct(product);
+
     }
 }

@@ -113,4 +113,19 @@ public class ProductDAO {
         }
 
     }
+
+    public void removeProduct(long id) {
+        String query = "DELETE FROM products WHERE id = ?";
+
+        try (Connection connection = ConnectionFactory.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+
+            System.out.println("Produto removido com sucesso!");
+        } catch (SQLException e) {
+            System.err.println("Erro ao remover o produto: " + e.getMessage());
+        }
+
+    }
 }
