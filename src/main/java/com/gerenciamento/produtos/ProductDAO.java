@@ -6,6 +6,12 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 
 public class ProductDAO {
+    private CategoryDAO categoryDAO;
+
+    public ProductDAO() {
+        CategoryDAO categoryDAO = new CategoryDAO();
+    }
+
     public void insertProduct(Product product) {
         String query = "INSERT INTO products (name, description,  price, quantity) VALUES (?, ?, ?, ?)";
 
@@ -49,6 +55,11 @@ public class ProductDAO {
                 String description = resultSet.getString("description");
                 double price = resultSet.getDouble("price");
                 int quantity = resultSet.getInt("quantity");
+                // Criar um objeto Category e preencher com informações da categoria
+                long categoryId = resultSet.getLong("category_id");
+                Category category = categoryDAO.getCategoryById(categoryId); // Você precisaria criar um método para
+                                                                             // buscar a
+                // categoria pelo id
 
                 // Imprima os valores para depuração
                 System.out.println("Produto a ser alterado");
@@ -56,9 +67,11 @@ public class ProductDAO {
                 System.out.println("Descrição: " + description);
                 System.out.println("Preço: " + price);
                 System.out.println("Quantidade: " + quantity);
+                System.out.println("Id da categoria: " + category.getId());
+                System.out.println("Nome da categoria: " + category.getName());
 
                 product = new Product(name, description, price, quantity); // não passa o id pois não precisa
-
+                product.setCategory(category); // Seta categoria associada
                 product.setId(resultSet.getLong("id")); // usamos o setId pois parar criar e o BD cria
             }
         } catch (SQLException e) {

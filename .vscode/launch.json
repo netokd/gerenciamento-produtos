@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TestCategoryDAO",
+            "request": "launch",
+            "mainClass": "com.gerenciamento.produtos.TestCategoryDAO",
+            "projectName": "gerenciamento-produtos"
+        },
+        {
+            "type": "java",
             "name": "TestProductDAO",
             "request": "launch",
             "mainClass": "com.gerenciamento.produtos.TestProductDAO",
