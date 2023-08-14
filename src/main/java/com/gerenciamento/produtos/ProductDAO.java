@@ -9,11 +9,11 @@ public class ProductDAO {
     private CategoryDAO categoryDAO;
 
     public ProductDAO() {
-        CategoryDAO categoryDAO = new CategoryDAO();
+        this.categoryDAO = new CategoryDAO();
     }
 
     public void insertProduct(Product product) {
-        String query = "INSERT INTO products (name, description,  price, quantity) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO products (name, description,  price, quantity, category_id) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = ConnectionFactory.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -23,6 +23,7 @@ public class ProductDAO {
             preparedStatement.setString(2, product.getDescription());
             preparedStatement.setDouble(3, product.getPrice());
             preparedStatement.setInt(4, product.getQuantity());
+            preparedStatement.setLong(5, product.getCategory().getId());
 
             // Executa a atualização no banco de dados (inserção)
             preparedStatement.executeUpdate();
@@ -61,18 +62,13 @@ public class ProductDAO {
                                                                              // buscar a
                 // categoria pelo id
 
-                // Imprima os valores para depuração
-                System.out.println("Produto a ser alterado");
-                System.out.println("Nome: " + name);
-                System.out.println("Descrição: " + description);
-                System.out.println("Preço: " + price);
-                System.out.println("Quantidade: " + quantity);
-                System.out.println("Id da categoria: " + category.getId());
-                System.out.println("Nome da categoria: " + category.getName());
-
-                product = new Product(name, description, price, quantity); // não passa o id pois não precisa
+                product = new Product(name, description, price, quantity, category); // não passa o id pois não precisa
                 product.setCategory(category); // Seta categoria associada
                 product.setId(resultSet.getLong("id")); // usamos o setId pois parar criar e o BD cria
+
+                // Imprima os valores para depuração
+                System.out.println("Produto a ser alterado");
+                ProductManager.detailsProduct(product);
             }
         } catch (SQLException e) {
             System.err.println("Erro ao buscar o produto: " + e.getMessage());
@@ -100,24 +96,17 @@ public class ProductDAO {
 
     // Função para atualizar um produto
     public void updateProduct(Product product) { // atualiza o banco de dados pelo id
-        String query = "UPDATE products SET name = ?, description = ?, price = ?, quantity = ? WHERE id = ?";
+        String query = "UPDATE products SET name = ?, description = ?, price = ?, quantity = ?, category_id = ? WHERE id = ?";
 
         try (Connection connection = ConnectionFactory.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            System.out.println("Produto a ser atualizado dentro do update:");
-            System.out.println("Nome: " + product.getName());
-            System.out.println("Id: " + product.getId());
-            System.out.println("Descrição: " + product.getDescription());
-            System.out.println("Preço: " + product.getPrice());
-            System.out.println("Quantidade: " + product.getQuantity());
-
             preparedStatement.setString(1, product.getName());
             preparedStatement.setString(2, product.getDescription());
             preparedStatement.setDouble(3, product.getPrice());
             preparedStatement.setInt(4, product.getQuantity());
+            preparedStatement.setLong(5, product.getCategory().getId());
+            preparedStatement.setLong(6, product.getId());
 
-            preparedStatement.setLong(5, product.getId());
             preparedStatement.executeUpdate();
 
             System.out.println("Produto atualizado com sucesso!");

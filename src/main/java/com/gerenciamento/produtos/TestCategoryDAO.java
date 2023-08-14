@@ -1,11 +1,12 @@
 package com.gerenciamento.produtos;
 
+//Arquivo de teste de CRUDs de categorias no banco de dados
 public class TestCategoryDAO {
 
     public static void main(String[] args) {
         CategoryDAO categoryDAO = new CategoryDAO();
-        // Category category = new Category("Bebidas");
-        // categoryDAO.insertCategory(category);
+        Category category = new Category("Acompanhamentos");
+        categoryDAO.insertCategory(category);
 
         // categoryDAO.removeCategory(1);
         // try {
@@ -24,7 +25,7 @@ public class TestCategoryDAO {
         // } catch (Exception e) {
         // System.err.println(e);
         // }
-        categoryDAO.removeCategory(6);
+        // categoryDAO.removeCategory(6);
 
     }
 }

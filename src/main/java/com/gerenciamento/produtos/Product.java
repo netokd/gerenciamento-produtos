@@ -9,11 +9,12 @@ public class Product {
     private Integer quantity;
     private Category category;
 
-    public Product(String name, String description, Double price, Integer quantity) {
+    public Product(String name, String description, Double price, Integer quantity, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
+        this.category = category;
     }
 
     public long getId() {
