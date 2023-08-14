@@ -31,10 +31,17 @@ public class CategoryDAO {
         try (Connection connection = ConnectionFactory.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
+            Boolean validatedId = validId(id);
 
-            System.out.println("Categoria removida com sucesso!");
+            if (validatedId == true) {
+
+                preparedStatement.setLong(1, id);
+                preparedStatement.executeUpdate();
+
+                System.out.println("Categoria removida com sucesso!");
+            } else {
+                System.out.println("Categoria não encontrada");
+            }
 
         } catch (SQLException e) {
             System.err.println("Erro ao remover categoria: " + e.getMessage());
@@ -71,40 +78,60 @@ public class CategoryDAO {
         String query = "UPDATE categories SET name = ? WHERE id = ?";
 
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
+        Boolean validatedId = validId(category.getId());
         System.out.println(category.getId());
         System.out.println(category.getName());
+
+        if (validatedId == true) {
+            try (Connection connection = ConnectionFactory.getConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+                preparedStatement.setString(1, category.getName());
+                preparedStatement.setLong(2, category.getId());
+                preparedStatement.executeUpdate();
+
+                System.out.println("Categoria atualizada com sucesso!");
+
+            } catch (SQLException e) {
+                System.err.println("Erro ao atualizar categoria: " + e.getMessage());
+            } finally {
+                // Feche o resultSet e o statement se estiverem abertos
+                if (statement != null) {
+                    try {
+                        statement.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } else {
+            System.out.println("Categoria não encontrada");
+        }
+    }
+
+    public Boolean validId(long id) {
+        String query = "SELECT * FROM categories ories WHERE id = ?";
 
         try (Connection connection = ConnectionFactory.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, category.getName());
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Boolean validatedId;
 
-            preparedStatement.setLong(2, category.getId());
+            if (resultSet.next()) {
+                validatedId = true;
 
-            preparedStatement.executeUpdate();
+            } else {
+                validatedId = false;
+            }
 
-            System.out.println("Categoria atualizada com sucesso!");
-
+            return validatedId;
         } catch (SQLException e) {
-            System.err.println("Erro ao atualizar categoria: " + e.getMessage());
-        } finally {
-            // Feche o resultSet e o statement se estiverem abertos
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            System.err.println("Erro ao validar o ID: " + e.getMessage());
         }
+        return null;
+
     }
+
 }
