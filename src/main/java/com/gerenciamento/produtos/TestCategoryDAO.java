@@ -9,10 +9,12 @@ public class TestCategoryDAO {
 
         // categoryDAO.removeCategory(1);
 
-        Category category = categoryDAO.getCategoryById(2);
+        Category category = categoryDAO.getCategoryById(3);
         System.out.println(category.getName());
+        System.out.println(category.getId());
         category.setName("Salgados UPDATE");
         System.out.println(category.getName());
+        System.out.println(category.getId());
         categoryDAO.updateCategory(category);
 
     }

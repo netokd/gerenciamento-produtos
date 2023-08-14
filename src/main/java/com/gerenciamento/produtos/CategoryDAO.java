@@ -43,7 +43,7 @@ public class CategoryDAO {
 
     public Category getCategoryById(long id) {
 
-        String query = "SELECT * FROM categories WHERE id = ?";
+        String query = "SELECT * FROM categories ories WHERE id = ?";
 
         try (Connection connection = ConnectionFactory.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -53,7 +53,11 @@ public class CategoryDAO {
 
             if (resultSet.next()) {
                 String name = resultSet.getString("name");
-                return new Category(name);
+                Category thisCategory = new Category(name);
+                thisCategory.setId(id);
+
+                return thisCategory;
+
             }
 
         } catch (SQLException e) {
@@ -68,25 +72,12 @@ public class CategoryDAO {
 
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        Category category = null;
+
+        System.out.println(category.getId());
+        System.out.println(category.getName());
 
         try (Connection connection = ConnectionFactory.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            preparedStatement.setLong(1, id);
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                String categoryName = resultSet.getString("name");
-                // Outros campos da categoria
-
-                category = new Category();
-                category.setName(categoryName);
-            }
-
-            System.out.println("Categoria a ser atualizada dentro do update:");
-            System.out.println("Nome: " + category.getName());
-            System.out.println("Id: " + category.getId());
 
             preparedStatement.setString(1, category.getName());
 
