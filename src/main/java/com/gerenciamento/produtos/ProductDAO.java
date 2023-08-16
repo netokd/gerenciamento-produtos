@@ -3,6 +3,8 @@ package com.gerenciamento.produtos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.ResultSet;
 
 public class ProductDAO {
@@ -129,5 +131,34 @@ public class ProductDAO {
             System.err.println("Erro ao remover o produto: " + e.getMessage());
         }
 
+    }
+
+    // Cria um array e armazena todos os produtos nesse array.
+    public Product[] listProducts() {
+        String query = "SELECT * FROM products";
+        List<Product> productList = new ArrayList<>();
+
+        try (Connection connection = ConnectionFactory.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) { // prepara a query
+
+            ResultSet resultSet = preparedStatement.executeQuery(); // executa a query
+
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                double price = resultSet.getDouble("price");
+                int quantity = resultSet.getInt("quantity");
+                long categoryId = resultSet.getLong("category_id");
+
+                Product product = new Product(name, description, price, quantity,
+                        categoryDAO.getCategoryById(categoryId));
+                productList.add(product);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar produtos: " + e.getMessage());
+        }
+
+        return productList.toArray(new Product[0]);
     }
 }

@@ -20,13 +20,13 @@ public class TestProductDAO {
         // ProductManager.detailsProduct(product);
 
         // Buscar o produto pelo ID
-        long productIdToUpdate = 2; // id a ser localizado
+        long productIdToUpdate = 3; // id a ser localizado
         // long productIdToDelete = 1; // id a ser deletado
         Product productToUpdate = productDAO.findProductById(productIdToUpdate);
         // productDAO.removeProduct(productIdToDelete);
 
         if (productToUpdate != null) {
-            productToUpdate.setName("Coca-Cola Lata 350ml");
+            productToUpdate.setName("Fanta Lata 350ml");
             productToUpdate.setDescription(productToUpdate.getDescription());
             productToUpdate.setPrice(5.99);
             productToUpdate.setQuantity(10);
