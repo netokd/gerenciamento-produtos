@@ -3,6 +3,8 @@ package com.gerenciamento.produtos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.ResultSet;
 
 public class CategoryDAO {
@@ -132,6 +134,28 @@ public class CategoryDAO {
         }
         return null;
 
+    }
+
+    public static Category[] listCategories() {
+        String query = "SELECT * FROM categories";
+        List<Category> categoryList = new ArrayList<>();
+
+        try (Connection connection = ConnectionFactory.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                Category thisCategory = new Category(name);
+                thisCategory.setId(resultSet.getLong("id"));
+                categoryList.add(thisCategory);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar categorias: " + e.getMessage());
+        }
+
+        return categoryList.toArray(new Category[0]);
     }
 
 }

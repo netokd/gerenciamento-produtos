@@ -69,8 +69,8 @@ public class ProductDAO {
                 product.setId(resultSet.getLong("id")); // usamos o setId pois parar criar e o BD cria
 
                 // Imprima os valores para depuração
-                System.out.println("Produto a ser alterado");
-                ProductManager.detailsProduct(product);
+                // System.out.println("Produto a ser alterado");
+                // ProductManager.detailsProduct(product);
             }
         } catch (SQLException e) {
             System.err.println("Erro ao buscar o produto: " + e.getMessage());
