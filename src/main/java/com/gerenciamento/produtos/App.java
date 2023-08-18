@@ -28,7 +28,7 @@ public class App {
                     ProductManager.insertProduct(args, sc);
                     break;
                 case 2:
-                    ProductManager.listProducts(args, sc);
+                    ProductManager.listProducts(args, 0);
                     break;
                 case 3:
                     ProductManager.updateProduct(args, sc);

@@ -149,9 +149,11 @@ public class ProductDAO {
                 double price = resultSet.getDouble("price");
                 int quantity = resultSet.getInt("quantity");
                 long categoryId = resultSet.getLong("category_id");
+                long id = resultSet.getLong("id");
 
                 Product product = new Product(name, description, price, quantity,
                         categoryDAO.getCategoryById(categoryId));
+                product.setId(id);
                 productList.add(product);
             }
 

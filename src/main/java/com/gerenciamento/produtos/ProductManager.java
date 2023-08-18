@@ -7,15 +7,15 @@ public class ProductManager {
 
     // Lista os detalhes de um produto.
     public static void detailsProduct(Product product, int haveId) {
-        System.out.println("\nNome: " + product.getName());
+        System.out.println("");
+        if (haveId > 0) {
+            System.out.println("ID: " + product.getId());
+        }
+        System.out.println("Nome: " + product.getName());
         System.out.println("Descrição: " + product.getDescription());
         System.out.println("Preço: " + product.getPrice());
         System.out.println("Quantidade:" + product.getQuantity());
         Category associatedCategory = product.getCategory();
-
-        if (haveId > 0) {
-            System.out.println("ID: " + product.getId());
-        }
         if (associatedCategory != null) {
             System.out.println("Detalhes da Categoria");
             System.out.println("Nome: " + associatedCategory.getName());
@@ -60,10 +60,54 @@ public class ProductManager {
 
     }
 
-    public static void listProducts(String[] args, Scanner sc) {
+    public static void listProducts(String[] args, int haveId) {
+        ProductDAO productDAO = new ProductDAO();
+
+        for (Product product : productDAO.listProducts()) {
+            detailsProduct(product, haveId);
+        }
     }
 
     public static void updateProduct(String[] args, Scanner sc) {
+        ProductDAO productDAO = new ProductDAO();
+        System.out.println("Lista de Produtos com id:\n");
+        listProducts(args, 1);
+        System.out.println("digite o ID do produto:");
+        int productId = sc.nextInt();
+        sc.nextLine();
+        Product productToUpdate = productDAO.findProductById(productId);
+        System.out.println("Produto Selecionado: \n");
+        detailsProduct(productToUpdate, 0);
+
+        System.out.println("Digite o novo nome do produto");
+        System.out.println("Ou Deixe vazio para não alterar:");
+        String name = sc.nextLine();
+        if (name == "") {
+            name = productToUpdate.getName();
+        }
+        System.out.println("Digite a descrição do produto:");
+        System.out.println("Ou Deixe vazio para não alterar:");
+        String description = sc.nextLine();
+        if (description == "") {
+            description = productToUpdate.getDescription();
+        }
+        System.out.println("digite o valor do produto:");
+        System.out.println("Ou digite um valor menor que 1 para não alterar:");
+        double price = sc.nextDouble();
+        if (price <= 0) {
+            price = productToUpdate.getPrice();
+        }
+        System.out.println("digite a quantidade do produto:");
+        System.out.println("Ou digite um valor menor que -10 para não alterar:");
+        int quantity = sc.nextInt();
+        if (quantity < -10) {
+            quantity = productToUpdate.getQuantity();
+        }
+        productToUpdate = new Product(name, description, price, quantity, productToUpdate.getCategory());
+        productToUpdate.setId(productId);
+
+        productDAO.updateProduct(productToUpdate);
+
     }
 
     public static void removeProduct(String[] args, Scanner sc) {
