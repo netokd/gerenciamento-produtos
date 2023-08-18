@@ -1,5 +1,5 @@
 package com.gerenciamento.produtos;
-//Lista de produtos e categorias
+//Metodos que manipulam produtos e categorias
 
 import java.util.Scanner;
 
@@ -111,5 +111,22 @@ public class ProductManager {
     }
 
     public static void removeProduct(String[] args, Scanner sc) {
+        ProductDAO productDAO = new ProductDAO();
+        System.out.println("Lista de Produtos com id:\n");
+        listProducts(args, 1);
+        System.out.println("digite o ID do produto:");
+        int productId = sc.nextInt();
+        sc.nextLine();
+        Product productToUpdate = productDAO.findProductById(productId);
+        System.out.println("Produto Selecionado: \n");
+        detailsProduct(productToUpdate, 0);
+
+        System.out.println("Tem certeza que deseja remover o produto? S/N");
+        String answer = sc.nextLine();
+        if (answer.toUpperCase().equals("S")) {
+            productDAO.removeProduct(productId);
+        } else {
+            System.out.println("Operação cancelada!");
+        }
     }
 }

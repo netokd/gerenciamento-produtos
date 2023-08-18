@@ -3,8 +3,11 @@ package com.gerenciamento.produtos;
 import java.util.Scanner;
 
 /**
- * Hello world!
- *
+ * Implementação do Menu, que chama os metodos que estão em ProductManager.java
+ * Para melhorar a semantica o tratamento e as linhas de comando estão em
+ * productManager.java
+ * Futuramente devo implemenar ou uma interface grafica ou em web e devo retirar
+ * os input e output do ProductManager
  */
 public class App {
     public static void main(String[] args) {
